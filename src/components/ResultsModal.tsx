@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
-import { QUESTIONS_With_INDEX } from "./constants";
+import { QUESTIONS } from "./constants";
 
 type ResultsModalProps = {
   isVisible: boolean;
@@ -20,10 +20,8 @@ type ResultsModalProps = {
 };
 
 const getResultContent = (prediction: number[], question: string) => {
-  console.log(question)
-  const questionIndex = QUESTIONS_With_INDEX.find(q => q.question === question)?.index;
-  console.log("Question Index:", questionIndex);
-  if (questionIndex === undefined || !prediction) {
+  const questionIndex = QUESTIONS.indexOf(question);
+  if (questionIndex === -1 || !prediction) {
     return { title: "Hmm...", subtitle: "Couldn't analyze the result." };
   }
 

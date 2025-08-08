@@ -16,26 +16,29 @@ import { useImagePicker } from "./hooks/useImagePicker";
 import { CameraControls } from "./CameraControls";
 import { ImagePreviewModal } from "./ImagePreviewModal";
 import { SettingsSheet } from "./SettingsSheet";
-import { ResultsModal } from "./ResultsModal"; 
+import { ResultsModal } from "./ResultsModal";
 import { QUESTIONS } from "./constants";
 import { styles } from "./styles";
-import { useAppContext } from "../context/AppContext"; 
+import { useAppContext } from "../context/AppContext";
 
 const Main = () => {
   const [permission, requestPermission] = useCameraPermissions();
-  const { prediction, isAnalyzing, clearPrediction } = useAppContext(); 
+  const {
+    prediction,
+    isAnalyzing,
+    clearPrediction,
+    selectedQuestion,
+    setSelectedQuestion,
+  } = useAppContext();
 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isTakingPicture, setIsTakingPicture] = useState(false);
   const [isImagePreviewVisible, setImagePreviewVisible] = useState(false);
   const [isSettingsSheetVisible, setSettingsSheetVisible] = useState(false);
-  const [isResultVisible, setIsResultVisible] = useState(false); 
+  const [isResultVisible, setIsResultVisible] = useState(false);
   const [zoom, setZoom] = useState(0);
   const [flash, setFlash] = useState<FlashMode>("off");
   const [cameraType, setCameraType] = useState<"back" | "front">("back");
-  const [selectedQuestion, setSelectedQuestion] = useState<string>(
-    QUESTIONS[0]
-  );
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
 
@@ -51,7 +54,7 @@ const Main = () => {
   }, [prediction]);
 
   const takePicture = async () => {
-    if (isTakingPicture || isAnalyzing || !cameraRef.current) return; 
+    if (isTakingPicture || isAnalyzing || !cameraRef.current) return;
     setIsTakingPicture(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     try {
@@ -138,7 +141,7 @@ const Main = () => {
         <TouchableOpacity
           onPress={toggleFlash}
           style={styles.iconButton}
-          disabled={isAnalyzing} 
+          disabled={isAnalyzing}
         >
           {flash === "on" && <Ionicons name="flash" size={28} color="white" />}
           {flash === "off" && (
@@ -152,7 +155,7 @@ const Main = () => {
           onPress={() => setSettingsSheetVisible(true)}
           style={styles.questionDisplay}
           activeOpacity={0.7}
-          disabled={isAnalyzing} 
+          disabled={isAnalyzing}
         >
           <Text style={styles.questionText}>{selectedQuestion}</Text>
         </TouchableOpacity>
@@ -183,7 +186,7 @@ const Main = () => {
           onTakePicture={takePicture}
           onPickImage={pickImageFromGallery}
           onToggleCamera={toggleCameraType}
-          isTakingPicture={isTakingPicture || isAnalyzing} 
+          isTakingPicture={isTakingPicture || isAnalyzing}
         />
       </View>
 

@@ -7,14 +7,17 @@ import React, {
 } from "react";
 import * as tf from "@tensorflow/tfjs";
 import { init, loadModel, getPrediction } from "../brain";
+import { QUESTIONS } from "../components/constants";
 
 
 interface AppContextType {
   analyzeImage: (uri: string) => Promise<void>;
   isLoading: boolean;
   isAnalyzing: boolean;
-  prediction: number[] | null; 
-  clearPrediction: () => void; 
+  prediction: number[] | null;
+  clearPrediction: () => void;
+  selectedQuestion: string;
+  setSelectedQuestion: (question: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -26,6 +29,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [isAnalyzing, setIsAnalyzing] = useState(false); 
   const [prediction, setPrediction] = useState<number[] | null>(null); 
+  const [selectedQuestion, setSelectedQuestion] = useState<string>(
+      QUESTIONS[0]
+    );
 
   useEffect(() => {
     const setup = async () => {
@@ -51,7 +57,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     setIsAnalyzing(true);
     try {
       const predictionResult = await getPrediction(uri, model);
-      console.log("🧠 Prediction Result:", predictionResult);
+      //console.log("🧠 Prediction Result:", predictionResult);
       setPrediction(predictionResult as number[]);
     } catch (error) {
       console.error("Error during analysis:", error);
@@ -71,6 +77,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     isAnalyzing,
     prediction,
     clearPrediction,
+    selectedQuestion,
+    setSelectedQuestion,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
