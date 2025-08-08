@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import {
   Text,
   View,
@@ -16,15 +16,20 @@ import { useImagePicker } from "./hooks/useImagePicker";
 import { CameraControls } from "./CameraControls";
 import { ImagePreviewModal } from "./ImagePreviewModal";
 import { SettingsSheet } from "./SettingsSheet";
+import { ResultsModal } from "./ResultsModal"; 
 import { QUESTIONS } from "./constants";
 import { styles } from "./styles";
+import { useAppContext } from "../context/AppContext"; 
 
 const Main = () => {
   const [permission, requestPermission] = useCameraPermissions();
+  const { prediction, isAnalyzing, clearPrediction } = useAppContext(); 
+
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isTakingPicture, setIsTakingPicture] = useState(false);
   const [isImagePreviewVisible, setImagePreviewVisible] = useState(false);
   const [isSettingsSheetVisible, setSettingsSheetVisible] = useState(false);
+  const [isResultVisible, setIsResultVisible] = useState(false); 
   const [zoom, setZoom] = useState(0);
   const [flash, setFlash] = useState<FlashMode>("off");
   const [cameraType, setCameraType] = useState<"back" | "front">("back");
@@ -33,13 +38,20 @@ const Main = () => {
   );
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
+
   const { pickImageFromGallery } = useImagePicker(
     setImageUri,
     setImagePreviewVisible
   );
 
+  useEffect(() => {
+    if (prediction) {
+      setIsResultVisible(true);
+    }
+  }, [prediction]);
+
   const takePicture = async () => {
-    if (isTakingPicture || !cameraRef.current) return;
+    if (isTakingPicture || isAnalyzing || !cameraRef.current) return; 
     setIsTakingPicture(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     try {
@@ -54,6 +66,11 @@ const Main = () => {
     } finally {
       setIsTakingPicture(false);
     }
+  };
+
+  const handleCloseResult = () => {
+    setIsResultVisible(false);
+    clearPrediction();
   };
 
   const toggleCameraType = () => {
@@ -118,7 +135,11 @@ const Main = () => {
         autofocus="on"
       />
       <View style={[styles.header, { paddingTop: insets.top }]}>
-        <TouchableOpacity onPress={toggleFlash} style={styles.iconButton}>
+        <TouchableOpacity
+          onPress={toggleFlash}
+          style={styles.iconButton}
+          disabled={isAnalyzing} 
+        >
           {flash === "on" && <Ionicons name="flash" size={28} color="white" />}
           {flash === "off" && (
             <Ionicons name="flash-off" size={28} color="white" />
@@ -131,6 +152,7 @@ const Main = () => {
           onPress={() => setSettingsSheetVisible(true)}
           style={styles.questionDisplay}
           activeOpacity={0.7}
+          disabled={isAnalyzing} 
         >
           <Text style={styles.questionText}>{selectedQuestion}</Text>
         </TouchableOpacity>
@@ -138,7 +160,9 @@ const Main = () => {
           <Feather name="help-circle" size={28} color="white" />
         </View>
       </View>
+
       <View style={[styles.footer, { paddingBottom: insets.bottom }]}>
+        {/* Zoom Slider */}
         <View style={styles.zoomContainer}>
           <Text style={styles.zoomText}>1x</Text>
           <Slider
@@ -150,27 +174,40 @@ const Main = () => {
             minimumTrackTintColor="#FFFFFF"
             maximumTrackTintColor="rgba(255, 255, 255, 0.4)"
             thumbTintColor="#FFFFFF"
+            disabled={isAnalyzing}
           />
           <Text style={styles.zoomText}>4x</Text>
         </View>
+
         <CameraControls
           onTakePicture={takePicture}
           onPickImage={pickImageFromGallery}
           onToggleCamera={toggleCameraType}
-          isTakingPicture={isTakingPicture}
+          isTakingPicture={isTakingPicture || isAnalyzing} 
         />
       </View>
+
       <ImagePreviewModal
         isVisible={isImagePreviewVisible}
         onClose={() => setImagePreviewVisible(false)}
         imageUri={imageUri}
         insets={insets}
       />
+
       <SettingsSheet
         isVisible={isSettingsSheetVisible}
         onClose={() => setSettingsSheetVisible(false)}
         questions={QUESTIONS}
         onSelect={handleQuestionSelect}
+        insets={insets}
+      />
+
+      <ResultsModal
+        isVisible={isResultVisible}
+        onClose={handleCloseResult}
+        imageUri={imageUri}
+        prediction={prediction}
+        question={selectedQuestion}
         insets={insets}
       />
     </View>

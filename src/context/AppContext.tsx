@@ -1,24 +1,32 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import * as tf from '@tensorflow/tfjs';
-import { init, loadModel, getPrediction } from '../brain';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import * as tf from "@tensorflow/tfjs";
+import { init, loadModel, getPrediction } from "../brain";
 
-// Define the shape of the context data
+
 interface AppContextType {
   analyzeImage: (uri: string) => Promise<void>;
   isLoading: boolean;
+  isAnalyzing: boolean;
+  prediction: number[] | null; 
+  clearPrediction: () => void; 
 }
 
-// Create the context with a default value
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-/**
- * Provider component that wraps the app and manages model loading and analysis state.
- */
-export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AppProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [model, setModel] = useState<tf.LayersModel | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Initially true for model loading
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAnalyzing, setIsAnalyzing] = useState(false); 
+  const [prediction, setPrediction] = useState<number[] | null>(null); 
 
-  // Effect to initialize TensorFlow and load the model on mount
   useEffect(() => {
     const setup = async () => {
       try {
@@ -29,45 +37,49 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       } catch (e) {
         console.error("❌ Failed to load model", e);
       } finally {
-        setIsLoading(false); // Hide initial loading screen
+        setIsLoading(false); 
       }
     };
     setup();
   }, []);
 
-  /**
-   * Takes an image URI, runs it through the model, and logs the prediction.
-   * @param uri - The local URI of the image to analyze.
-   */
   const analyzeImage = async (uri: string) => {
     if (!model) {
       console.warn("Model not loaded yet, please wait.");
       return;
     }
-    // The loading state is no longer set here, so the loading screen won't show during analysis.
+    setIsAnalyzing(true);
     try {
-      const prediction = await getPrediction(uri, model);
-      console.log("🧠 Prediction Result:", prediction);
+      const predictionResult = await getPrediction(uri, model);
+      console.log("🧠 Prediction Result:", predictionResult);
+      setPrediction(predictionResult as number[]);
     } catch (error) {
       console.error("Error during analysis:", error);
+    } finally {
+      setIsAnalyzing(false);
     }
+  };
+
+
+  const clearPrediction = () => {
+    setPrediction(null);
   };
 
   const value = {
     analyzeImage,
     isLoading,
+    isAnalyzing,
+    prediction,
+    clearPrediction,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-/**
- * Custom hook to easily access the App context data.
- */
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useAppContext must be used within an AppProvider');
+    throw new Error("useAppContext must be used within an AppProvider");
   }
   return context;
 };

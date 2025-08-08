@@ -1,20 +1,32 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import LoadingScreen from "./src/components/loadingScreen"; 
+import LoadingScreen from "./src/components/loadingScreen";
 import Main from "./src/components/Main";
 import { AppProvider, useAppContext } from "./src/context/AppContext";
+import * as Updates from "expo-updates";
+import { useEffect } from "react";
 
-/**
- * A component that consumes the AppContext to decide what to render.
- */
 const AppContent = () => {
-  const { isLoading } = useAppContext();
+  const { isLoading, isAnalyzing } = useAppContext();
 
-  // If the model is loading or an image is being analyzed, show the loading screen
-  if (isLoading) {
+  useEffect(() => {
+    const checkForUpdates = async () => {
+      try {
+        if(__DEV__) return;
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
+        }
+      } catch (e) {
+        console.error("Error checking for updates:", e);
+      }
+    };
+
+    checkForUpdates();
+  }, []);
+  if (isLoading || isAnalyzing) {
     return <LoadingScreen />;
   }
-
-  // Otherwise, show the main application interface
   return <Main />;
 };
 

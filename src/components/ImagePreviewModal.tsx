@@ -31,10 +31,7 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
       uri,
       [
         {
-          resize: {
-            width: 224,
-            height: 224,
-          },
+          resize: { width: 224, height: 224 }, // Resize to a smaller size for analysis
         },
       ],
       {

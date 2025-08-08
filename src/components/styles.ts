@@ -202,6 +202,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
+
+   resultContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  resultTitle: {
+    fontSize: 90,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+  },
+  resultSubtitle: {
+    fontSize: 24,
+    fontWeight: "600",
+    color: "white",
+    textAlign: "center",
+    marginTop: 10,
+  },
 });
 
 export { styles };

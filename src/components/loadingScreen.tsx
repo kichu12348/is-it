@@ -11,8 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
-// --- ASSETS ---
-// Ensure these paths are correct in your project structure
+
 const images = [
   require('../assets/biryani.png'),
   require('../assets/food.png'),
@@ -24,7 +23,7 @@ const gradients = [
   ['#FFB347', '#FF774D'], // Orange/Red for Biryani
   ['#FF6F61', '#FFC371'], // Coral/Gold for Food
   ['#8B5E3C', '#D2B48C'], // Brown/Tan for Chair
-  ['#9D50BB', '#6E48AA'], // Purple for Selfie
+  ['#9D50BB', '#6E48AA'], 
 ];
 
 const captions = [
@@ -99,7 +98,6 @@ export default function LoadingScreen() {
   );
 }
 
-// --- STYLES ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,7 +113,6 @@ const styles = StyleSheet.create({
   caption: {
     color: '#fff',
     fontSize: 18,
-    fontFamily: 'sans-serif-medium', // A nice font choice
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: 40,
@@ -126,7 +123,7 @@ const styles = StyleSheet.create({
     width: width * 0.6,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 4,
-    overflow: 'hidden', // Ensures the fill stays within the rounded corners
+    overflow: 'hidden', 
   },
   progressBarFill: {
     height: '100%',
