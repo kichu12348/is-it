@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     minWidth: "70%",
     overflow: "hidden",
     position: "relative",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   buttonGradient: {
     ...StyleSheet.absoluteFillObject,

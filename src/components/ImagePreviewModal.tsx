@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   Modal,
   ImageBackground,
   View,
   TouchableOpacity,
   Text,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { styles } from './styles';
+} from "react-native";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { styles } from "./styles";
 
 type ImagePreviewModalProps = {
   isVisible: boolean;
@@ -40,12 +39,10 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
             <Ionicons name="close" size={28} color="#333" />
           </TouchableOpacity>
         </View>
-        <View style={[styles.modalFooter, { paddingBottom: insets.bottom + 10 }]}>
+        <View
+          style={[styles.modalFooter, { paddingBottom: insets.bottom + 10 }]}
+        >
           <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-            <LinearGradient
-              colors={['#5B24E4', '#A23BEE']}
-              style={styles.buttonGradient}
-            />
             <Text style={styles.buttonText}>Analyze Image</Text>
             <MaterialCommunityIcons
               name="image-search-outline"

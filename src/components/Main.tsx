@@ -7,12 +7,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { CameraView, FlashMode } from "expo-camera";
-import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Slider from "@react-native-community/slider";
 import * as Haptics from "expo-haptics";
 import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
-
 import { useCameraPermissions } from "./hooks/useCameraPermissions";
 import { useImagePicker } from "./hooks/useImagePicker";
 import { CameraControls } from "./CameraControls";
@@ -33,7 +31,6 @@ const Main = () => {
   const [selectedQuestion, setSelectedQuestion] = useState<string>(
     QUESTIONS[0]
   );
-
   const cameraRef = useRef<CameraView>(null);
   const insets = useSafeAreaInsets();
   const { pickImageFromGallery } = useImagePicker(
@@ -88,10 +85,6 @@ const Main = () => {
           To get started, please grant this app permission to use your camera.
         </Text>
         <TouchableOpacity onPress={requestPermission} style={styles.button}>
-          <LinearGradient
-            colors={["#5B24E4", "#A23BEE"]}
-            style={styles.buttonGradient}
-          />
           <Text style={styles.buttonText}>Grant Permission</Text>
           <Ionicons
             name="camera-outline"
@@ -124,10 +117,7 @@ const Main = () => {
         zoom={zoom}
         autofocus="on"
       />
-      <LinearGradient
-        colors={["rgba(0,0,0,0.6)", "transparent"]}
-        style={[styles.header, { paddingTop: insets.top }]}
-      >
+      <View style={[styles.header, { paddingTop: insets.top }]}>
         <TouchableOpacity onPress={toggleFlash} style={styles.iconButton}>
           {flash === "on" && <Ionicons name="flash" size={28} color="white" />}
           {flash === "off" && (
@@ -137,16 +127,17 @@ const Main = () => {
             <MaterialIcons name="flash-auto" size={28} color="white" />
           )}
         </TouchableOpacity>
-        <View style={styles.questionDisplay}>
-          <Text style={styles.questionText}>{selectedQuestion}</Text>
-        </View>
         <TouchableOpacity
           onPress={() => setSettingsSheetVisible(true)}
-          style={styles.iconButton}
+          style={styles.questionDisplay}
+          activeOpacity={0.7}
         >
-          <Feather name="help-circle" size={28} color="white" />
+          <Text style={styles.questionText}>{selectedQuestion}</Text>
         </TouchableOpacity>
-      </LinearGradient>
+        <View style={[styles.iconButton, { opacity: 0 }]}>
+          <Feather name="help-circle" size={28} color="white" />
+        </View>
+      </View>
       <View style={[styles.footer, { paddingBottom: insets.bottom }]}>
         <View style={styles.zoomContainer}>
           <Text style={styles.zoomText}>1x</Text>
