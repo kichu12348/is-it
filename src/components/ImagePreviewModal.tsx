@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { styles } from "./styles";
+import { useAppContext } from "../context/AppContext";
+import * as ImageManipulator from "expo-image-manipulator";
 
 type ImagePreviewModalProps = {
   isVisible: boolean;
@@ -21,38 +23,72 @@ export const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   onClose,
   imageUri,
   insets,
-}) => (
-  <Modal
-    visible={isVisible}
-    animationType="slide"
-    onRequestClose={onClose}
-    transparent
-  >
-    <ImageBackground
-      source={{ uri: imageUri }}
-      style={styles.modalImageBackground}
-      resizeMode="contain"
+}) => {
+  const { analyzeImage } = useAppContext();
+
+  const handleImageManipulation = async (uri: string) => {
+    const result = await ImageManipulator.manipulateAsync(
+      uri,
+      [
+        {
+          resize: {
+            width: 224,
+            height: 224,
+          },
+        },
+      ],
+      {
+        format: ImageManipulator.SaveFormat.JPEG,
+      }
+    );
+    return result.uri;
+  };
+
+  const handleAnalyze = async () => {
+    if (imageUri) {
+      const manipulatedUri = await handleImageManipulation(imageUri);
+      analyzeImage(manipulatedUri);
+      onClose(); // Close the modal to see the loading screen
+    }
+  };
+
+  return (
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      onRequestClose={onClose}
+      transparent
     >
-      <View style={styles.modalContentContainer}>
-        <View style={[styles.modalHeader, { paddingTop: insets.top }]}>
-          <TouchableOpacity onPress={onClose} style={styles.modalCloseButton}>
-            <Ionicons name="close" size={28} color="#333" />
-          </TouchableOpacity>
+      <ImageBackground
+        source={{ uri: imageUri }}
+        style={styles.modalImageBackground}
+        resizeMode="contain"
+      >
+        <View style={styles.modalContentContainer}>
+          <View style={[styles.modalHeader, { paddingTop: insets.top }]}>
+            <TouchableOpacity onPress={onClose} style={styles.modalCloseButton}>
+              <Ionicons name="close" size={28} color="#333" />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={[styles.modalFooter, { paddingBottom: insets.bottom + 10 }]}
+          >
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.8}
+              onPress={handleAnalyze}
+            >
+              <Text style={styles.buttonText}>Analyze Image</Text>
+              <MaterialCommunityIcons
+                name="image-search-outline"
+                size={22}
+                color="white"
+                style={styles.buttonIcon}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View
-          style={[styles.modalFooter, { paddingBottom: insets.bottom + 10 }]}
-        >
-          <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.buttonText}>Analyze Image</Text>
-            <MaterialCommunityIcons
-              name="image-search-outline"
-              size={22}
-              color="white"
-              style={styles.buttonIcon}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ImageBackground>
-  </Modal>
-);
+      </ImageBackground>
+    </Modal>
+  );
+};

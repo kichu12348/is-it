@@ -3,8 +3,8 @@ import { decodeJpeg, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import * as FileSystem from "expo-file-system";
 
 const modelBl = bundleResourceIO(
-  require("../assets/model/model.json"),
-  require("../assets/model/weights.bin")
+  require("../../assets/model/model.json"),
+  require("../../assets/model/weights.bin")
 );
 
 const init = async () => {
