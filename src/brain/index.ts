@@ -2,11 +2,6 @@ import * as tf from "@tensorflow/tfjs";
 import { decodeJpeg, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 import * as FileSystem from "expo-file-system";
 
-const modelBl = bundleResourceIO(
-  require("../../assets/model/model.json"),
-  require("../../assets/model/weights.bin")
-);
-
 const init = async () => {
   await tf.ready();
   try {
@@ -21,9 +16,12 @@ const loadModel = async (
   modelUrl?: string,
   cb?: (progress: number) => void
 ): Promise<tf.LayersModel> => {
-  const model = await tf.loadLayersModel(modelBl, {
-    onProgress: cb,
-  });
+  const model = await tf.loadLayersModel(
+    "https://cdn.jsdelivr.net/gh/kichu12348/is-it@master/assets/model/model.json",
+    {
+      onProgress: cb,
+    }
+  );
 
   return model;
 };
