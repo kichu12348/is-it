@@ -42,7 +42,7 @@ For Software:
 # Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/is-it.git
+git clone https://github.com/kichu12348/is-it.git
 cd is-it
 
 # Install dependencies
@@ -59,25 +59,66 @@ npx expo start
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*The main app interface, showing the live camera view with controls for flash, camera toggle, and gallery access. The selected question is displayed at the top.*
+![Screenshot1](Assets_bit/Screenshots/human.jpg)
+*The main app interface, showing the live camera view with "Analyze Image" button. The user can take selfies or photos of objects to analyze.*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*The question selection sheet, where the user can choose from a list of predefined, useless questions to ask the AI.*
+![Screenshot2](Assets_bit/Screenshots/confimation.jpg)
+*The loading screen displaying "Consulting MasterChef..." while the AI processes the image, shown here analyzing what appears to be biryani.*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*The results modal, displaying a confident "YES!" or "NOPE!" after the image analysis is complete, along with a cheeky confidence score.*
+![Screenshot3](Assets_bit/Screenshots/coverpage-is_it.jpg)
+*The results modal, displaying a confident "NOPE!" with "I'm about 100% sure this isn't." message after the image analysis is complete, along with a "Try Again" option.*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*The user flow starts with the camera view. The user can take a picture or pick one from the gallery. This leads to a preview where they can confirm the analysis. The app then processes the image, runs it through the TensorFlow model, and displays the final "Yes/No" result in a modal, after which the user can try again.*
+```mermaid
+flowchart TD
+    A[App Launch] --> B{Camera Permission?}
+    B -->|No| C[Request Permission]
+    B -->|Yes| D[Load TensorFlow Model]
+    C --> B
+    D --> E[Camera View]
+    
+    E --> F[User Actions]
+    F --> G[Take Picture]
+    F --> H[Pick from Gallery]
+    F --> I[Select Question]
+    
+    G --> J[Image Preview Modal]
+    H --> J
+    I --> K[Settings Sheet]
+    K --> L[Question Selected]
+    L --> E
+    
+    J --> M[Analyze Image]
+    M --> N[Loading Screen]
+    N --> O[Image Processing]
+    O --> P[TensorFlow.js Prediction]
+    P --> Q[Results Modal]
+    
+    Q --> R[Show YES/NO Result]
+    R --> S[Try Again]
+    S --> E
+    
+    style A fill:#9D50BB
+    style D fill:#FFB347
+    style O fill:#FF6F61
+    style P fill:#8B5E3C
+    style R fill:#32CD32
+```
+
+**App Architecture Flow:**
+1. **Initialization**: App launches → requests camera permissions → loads TensorFlow.js model
+2. **Camera Interface**: User sees live camera feed with controls for taking pictures, gallery access, and question selection
+3. **Image Capture**: User takes a photo or selects from gallery → image preview with analysis option
+4. **AI Processing**: Image gets processed → resized to 224x224 → fed to TensorFlow model → generates prediction array
+5. **Results Display**: AI confidence scores are interpreted → displays "YES!" or "NOPE!" with confidence percentage
+6. **Retry Loop**: User can try again with new images or different questions
 
 For Hardware:
 - Not Applicable
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[Demo Video](Assets_bit/Videos/vid-is_it.mp4)
 *The video demonstrates the full user journey: launching the app, selecting a question, taking a picture of an object, running the analysis, and viewing the final result. It also shows the gallery access and camera switching features.*
 
 # Additional Demos
