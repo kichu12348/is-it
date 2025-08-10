@@ -62,10 +62,10 @@ For Software:
 ![Screenshot1](Assets_bit/Screenshots/human.jpg)
 *The main app interface, showing the live camera view with "Analyze Image" button. The user can take selfies or photos of objects to analyze.*
 
-![Screenshot2](Assets_bit/Screenshots/confimation.jpg)
+![Screenshot2](Assets_bit/Screenshots/coverpage.png)
 *The loading screen displaying "Consulting MasterChef..." while the Model processes the image, shown here analyzing what appears to be a hooman(our timkerhub campus lead).*
 
-![Screenshot3](Assets_bit/Screenshots/coverpage-is_it.jpeg)
+![Screenshot3](Assets_bit/Screenshots/result.jpeg)
 *The results modal, displaying a confident "YES!" with "I'm about 100% sure." message after the image analysis is complete, along with a "Try Again" option.*
 
 # Diagrams
