@@ -9,7 +9,7 @@
 
 
 ### Team Members
-- Team Lead: Mahadevan Reji - College of Engineering Chengannur
+- Member 1: Mahadevan Reji - College of Engineering Chengannur
 - Member 2: Neil Oommen Renni - College of Engineering Chengannur
 
 ### Project Description
@@ -63,10 +63,10 @@ For Software:
 *The main app interface, showing the live camera view with "Analyze Image" button. The user can take selfies or photos of objects to analyze.*
 
 ![Screenshot2](Assets_bit/Screenshots/confimation.jpg)
-*The loading screen displaying "Consulting MasterChef..." while the AI processes the image, shown here analyzing what appears to be biryani.*
+*The loading screen displaying "Consulting MasterChef..." while the Model processes the image, shown here analyzing what appears to be a hooman(our timkerhub campus lead).*
 
-![Screenshot3](Assets_bit/Screenshots/coverpage-is_it.jpg)
-*The results modal, displaying a confident "NOPE!" with "I'm about 100% sure this isn't." message after the image analysis is complete, along with a "Try Again" option.*
+![Screenshot3](Assets_bit/Screenshots/coverpage-is_it.jpeg)
+*The results modal, displaying a confident "YES!" with "I'm about 100% sure." message after the image analysis is complete, along with a "Try Again" option.*
 
 # Diagrams
 ```mermaid
@@ -106,7 +106,7 @@ flowchart TD
 ```
 
 **App Architecture Flow:**
-1. **Initialization**: App launches → requests camera permissions → loads TensorFlow.js model
+1. **Initialization**: App launches → requests camera permissions → loads TensorFlow model
 2. **Camera Interface**: User sees live camera feed with controls for taking pictures, gallery access, and question selection
 3. **Image Capture**: User takes a photo or selects from gallery → image preview with analysis option
 4. **AI Processing**: Image gets processed → resized to 224x224 → fed to TensorFlow model → generates prediction array
@@ -118,15 +118,15 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Demo Video](Assets_bit/Videos/vid-is_it.mp4)
-*The video demonstrates the full user journey: launching the app, selecting a question, taking a picture of an object, running the analysis, and viewing the final result. It also shows the gallery access and camera switching features.*
+[Demo Video](https://drive.google.com/file/d/1xb3pTjMfJPhpkvktKxNccwmzlW3f3Sd2/view?usp=sharing)
+*The video demonstrates the full user journey: launching the app, selecting a question, taking a picture, running the analysis, and viewing the final result. It also shows the gallery access and camera switching features.*
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- Mahadevan Reji: Led the integration of the TensorFlow.js model, developed the core prediction and image processing logic (src/brain/), and managed the application's state using React Context (src/context/AppContext.tsx)
-- Neil Oommen Renni: Designed and implemented the user interface and component architecture, including the camera view, modals, and control elements (src/components/), and handled the overall UX and styling (src/components/styles.ts)
+- Mahadevan Reji: Led the integration of the TensorFlow model, developed the core prediction and image processing logic (src/brain/), and managed the application's state using React Context (src/context/AppContext.tsx)
+- Neil Oommen Renni: Designed and implemented the user interface and component architecture, including the camera view, modals, and control elements (src/components/), handled the overall UX and styling (src/components/styles.ts) and trained the model.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
