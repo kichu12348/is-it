@@ -91,7 +91,7 @@ flowchart TD
     J --> M[Analyze Image]
     M --> N[Loading Screen]
     N --> O[Image Processing]
-    O --> P[TensorFlow.js Prediction]
+    O --> P[TensorFlow Prediction]
     P --> Q[Results Modal]
     
     Q --> R[Show YES/NO Result]
