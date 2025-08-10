@@ -122,7 +122,7 @@ For Hardware:
 *The video demonstrates the full user journey: launching the app, selecting a question, taking a picture, running the analysis, and viewing the final result. It also shows the gallery access and camera switching features.*
 
 # Additional Demos
-[Add any extra demo materials/links]
+[Download Android APK](https://github.com/kichu12348/is-it/releases) - Get the latest release directly from our GitHub repository (Android only)
 
 ## Team Contributions
 - Mahadevan Reji: Led the integration of the TensorFlow model, developed the core prediction and image processing logic (src/brain/), and managed the application's state using React Context (src/context/AppContext.tsx)
