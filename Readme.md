@@ -13,7 +13,7 @@
 - Member 2: Neil Oommen Renni - College of Engineering Chengannur
 
 ### Project Description
-is-it is a revolutionary mobile app that leverages the power of Artificial Intelligence to answer life's most pressing, albeit useless, questions. Point your camera at an object, select a question, and our advanced ML model will give you the definitive "YES!" or "NOPE!" you've been searching for.
+is-it is a revolutionary mobile app that leverages the power of Machine Learning to answer life's most pressing, albeit useless, questions. Point your camera at an object, select a question, and our advanced ML model will give you the definitive "YES!" or "NOPE!" you've been searching for.
 
 ### The Problem (that doesn't exist)
 Have you ever stared deep into your lunch, pondering the existential question, "Is this truly Biryani?". Have you ever wondered if that comfy-looking thing is, in fact, "sittable?". The uncertainty is maddening! Society has long been plagued by the inability to definitively categorize the mundane objects around us.
